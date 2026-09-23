@@ -10,14 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BookRouteImport } from './routes/book'
 import { Route as BusinessRouteImport } from './routes/business'
 import { Route as MenRouteImport } from './routes/men'
 import { Route as WellbeingRouteImport } from './routes/wellbeing'
 import { Route as WomenRouteImport } from './routes/women'
+import { Route as BusinessVipConciergeWellbeingRouteImport } from './routes/business.vip-concierge-wellbeing'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BusinessRoute = BusinessRouteImport.update({
@@ -40,40 +59,89 @@ const WomenRoute = WomenRouteImport.update({
   path: '/women',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BusinessVipConciergeWellbeingRoute =
+  BusinessVipConciergeWellbeingRouteImport.update({
+    id: '/vip-concierge-wellbeing',
+    path: '/vip-concierge-wellbeing',
+    getParentRoute: () => BusinessRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/business': typeof BusinessRoute
+  '/about': typeof AboutRoute
+  '/blog': typeof BlogRoute
+  '/book': typeof BookRoute
+  '/business': typeof BusinessRouteWithChildren
   '/men': typeof MenRoute
   '/wellbeing': typeof WellbeingRoute
   '/women': typeof WomenRoute
+  '/business/vip-concierge-wellbeing': typeof BusinessVipConciergeWellbeingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/business': typeof BusinessRoute
+  '/about': typeof AboutRoute
+  '/blog': typeof BlogRoute
+  '/book': typeof BookRoute
+  '/business': typeof BusinessRouteWithChildren
   '/men': typeof MenRoute
   '/wellbeing': typeof WellbeingRoute
   '/women': typeof WomenRoute
+  '/business/vip-concierge-wellbeing': typeof BusinessVipConciergeWellbeingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/business': typeof BusinessRoute
+  '/about': typeof AboutRoute
+  '/blog': typeof BlogRoute
+  '/book': typeof BookRoute
+  '/business': typeof BusinessRouteWithChildren
   '/men': typeof MenRoute
   '/wellbeing': typeof WellbeingRoute
   '/women': typeof WomenRoute
+  '/business/vip-concierge-wellbeing': typeof BusinessVipConciergeWellbeingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/business' | '/men' | '/wellbeing' | '/women'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/blog'
+    | '/book'
+    | '/business'
+    | '/men'
+    | '/wellbeing'
+    | '/women'
+    | '/business/vip-concierge-wellbeing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/business' | '/men' | '/wellbeing' | '/women'
-  id: '__root__' | '/' | '/business' | '/men' | '/wellbeing' | '/women'
+  to:
+    | '/'
+    | '/about'
+    | '/blog'
+    | '/book'
+    | '/business'
+    | '/men'
+    | '/wellbeing'
+    | '/women'
+    | '/business/vip-concierge-wellbeing'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/blog'
+    | '/book'
+    | '/business'
+    | '/men'
+    | '/wellbeing'
+    | '/women'
+    | '/business/vip-concierge-wellbeing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BusinessRoute: typeof BusinessRoute
+  AboutRoute: typeof AboutRoute
+  BlogRoute: typeof BlogRoute
+  BookRoute: typeof BookRoute
+  BusinessRoute: typeof BusinessRouteWithChildren
   MenRoute: typeof MenRoute
   WellbeingRoute: typeof WellbeingRoute
   WomenRoute: typeof WomenRoute
@@ -86,6 +154,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/business': {
@@ -116,12 +205,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WomenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/business/vip-concierge-wellbeing': {
+      id: '/business/vip-concierge-wellbeing'
+      path: '/vip-concierge-wellbeing'
+      fullPath: '/business/vip-concierge-wellbeing'
+      preLoaderRoute: typeof BusinessVipConciergeWellbeingRouteImport
+      parentRoute: typeof BusinessRoute
+    }
   }
 }
 
+interface BusinessRouteChildren {
+  BusinessVipConciergeWellbeingRoute: typeof BusinessVipConciergeWellbeingRoute
+}
+
+const BusinessRouteChildren: BusinessRouteChildren = {
+  BusinessVipConciergeWellbeingRoute: BusinessVipConciergeWellbeingRoute,
+}
+
+const BusinessRouteWithChildren = BusinessRoute._addFileChildren(
+  BusinessRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BusinessRoute: BusinessRoute,
+  AboutRoute: AboutRoute,
+  BlogRoute: BlogRoute,
+  BookRoute: BookRoute,
+  BusinessRoute: BusinessRouteWithChildren,
   MenRoute: MenRoute,
   WellbeingRoute: WellbeingRoute,
   WomenRoute: WomenRoute,
