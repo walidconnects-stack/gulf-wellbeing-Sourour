@@ -1,24 +1,40 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowDown, ArrowUpRight, LockKeyhole } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FinalCta, imagery } from "@/components/editorial";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const description = "Private wellbeing advisory for individuals, women, men, executives and private clients across the Gulf.";
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ meta: [{ title: "Private Wellbeing Advisor Gulf — GULFWELLBEING" }, { name: "description", content: description }, { property: "og:title", content: "Private Wellbeing Advisor Gulf — GULFWELLBEING" }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { property: "og:url", content: "/" }], links: [{ rel: "canonical", href: "/" }], scripts: [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "ProfessionalService", name: "GULFWELLBEING", description, areaServed: ["United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"] }) }] }),
+  component: HomePage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+const pathways = [
+  { title: "Wellbeing", text: "Space to restore balance, clarity and personal capacity.", to: "/wellbeing" as const, image: imagery.interiorImage },
+  { title: "Women", text: "Discreet support for the complexities of private and family life.", to: "/women" as const, image: imagery.womenImage },
+  { title: "Men", text: "Considered guidance for responsibility, leadership and transition.", to: "/men" as const, image: imagery.executiveImage },
+];
+
+function HomePage() {
+  return <div className="overflow-hidden">
+    <section className="grain relative min-h-[92svh] bg-primary text-primary-foreground">
+      <img src={imagery.heroImage} width={1536} height={1024} fetchPriority="high" alt="A poised woman in a quiet contemporary Gulf residence" className="absolute inset-0 h-full w-full object-cover object-[62%_center]" />
+      <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/65 to-transparent" />
+      <div className="relative mx-auto flex min-h-[92svh] max-w-[1600px] items-end px-5 pb-16 pt-36 lg:px-10 lg:pb-20">
+        <div className="max-w-4xl"><p className="mb-6 text-[10px] uppercase tracking-[0.25em] text-gold">Private Wellbeing Advisory · Gulf & International</p><h1 className="text-[clamp(3.8rem,8.4vw,8.6rem)] leading-[0.82]">For those who<br/><em className="font-normal">carry more.</em></h1><p className="mt-8 max-w-xl text-sm leading-7 text-primary-foreground/72 sm:text-base">Personal, discreet guidance for the inner life behind responsibility, family, leadership and change.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button asChild variant="ivory" size="lg"><Link to="/book">Book a Private Session</Link></Button><Button asChild variant="quiet" size="lg"><Link to="/wellbeing">Explore Wellbeing</Link></Button></div></div>
+        <ArrowDown className="absolute bottom-8 end-6 size-5 text-gold lg:end-10" />
+      </div>
+    </section>
+
+    <section className="editorial-grid bg-background px-5 py-20 lg:px-10 lg:py-32"><div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"><p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">A private advisory relationship</p><div><h2 className="text-5xl leading-[0.95] sm:text-7xl">Wellbeing is personal.<br/>The support should be too.</h2><p className="mt-7 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">GULFWELLBEING offers a composed, confidential setting to make sense of pressure, restore perspective and move through change with greater clarity. Every conversation begins with the individual—not a formula.</p></div></div></section>
+
+    <section className="bg-secondary px-5 py-20 lg:px-10 lg:py-28"><div className="mx-auto max-w-[1500px]"><div className="mb-12 flex items-end justify-between"><div><p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Areas of advisory</p><h2 className="mt-3 text-5xl sm:text-7xl">Private pathways</h2></div><span className="hidden text-xs text-muted-foreground sm:block">01 — 03</span></div><div className="grid gap-px bg-border md:grid-cols-3">{pathways.map((item, index) => <Link key={item.title} to={item.to} className="group relative min-h-[30rem] overflow-hidden bg-primary text-primary-foreground"><img src={item.image} width={1280} height={960} loading="lazy" alt="" className="absolute inset-0 h-full w-full object-cover opacity-62 transition-transform duration-700 group-hover:scale-[1.025]"/><div className="absolute inset-0 bg-linear-to-t from-primary via-primary/20 to-transparent"/><div className="absolute inset-x-0 bottom-0 p-7"><span className="text-[10px] text-gold">0{index+1}</span><h3 className="mt-3 text-5xl">{item.title}</h3><p className="mt-3 max-w-xs text-sm leading-6 text-primary-foreground/68">{item.text}</p><ArrowUpRight className="mt-6 size-5"/></div></Link>)}</div></div></section>
+
+    <section className="grid bg-primary text-primary-foreground lg:grid-cols-2"><div className="min-h-[34rem]"><img src={imagery.executiveImage} width={1280} height={960} loading="lazy" alt="Executive reflecting beside a Gulf city skyline" className="h-full w-full object-cover"/></div><div className="flex items-center px-6 py-20 lg:px-20"><div><p className="text-[10px] uppercase tracking-[0.22em] text-gold">Business & Executive</p><h2 className="mt-5 text-5xl leading-none sm:text-7xl">Clearer within.<br/>Stronger in leadership.</h2><p className="mt-7 max-w-lg text-sm leading-7 text-primary-foreground/65">Private advisory for the human realities behind senior responsibility—sustained pressure, difficult decisions, changing identity and the need for clear perspective.</p><Button asChild variant="ivory" size="lg" className="mt-9"><Link to="/business">Explore Executive Wellbeing</Link></Button></div></div></section>
+
+    <section className="grid bg-background lg:grid-cols-[1.1fr_0.9fr]"><div className="order-2 flex items-center px-6 py-20 lg:order-1 lg:px-20"><div><LockKeyhole className="size-5 text-gold"/><p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">By private enquiry</p><h2 className="mt-4 text-5xl leading-none sm:text-7xl">VIP Concierge<br/>Wellbeing</h2><p className="mt-7 max-w-lg text-sm leading-7 text-muted-foreground">A highly personalized experience designed around demanding schedules, international lives and the value of exceptional discretion.</p><Button asChild variant="editorial" size="lg" className="mt-9"><Link to="/business/vip-concierge-wellbeing">Explore VIP Concierge</Link></Button></div></div><img src={imagery.interiorImage} width={1280} height={960} loading="lazy" alt="Private consultation salon with understated Gulf architecture" className="order-1 h-full min-h-[30rem] w-full object-cover lg:order-2"/></section>
+
+    <section className="bg-secondary px-5 py-20 lg:px-10 lg:py-28"><div className="mx-auto grid max-w-[1350px] gap-16 lg:grid-cols-2"><div><p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">The Tarkan approach</p><h2 className="mt-5 text-5xl leading-none sm:text-7xl">Human attention,<br/>without assumption.</h2></div><div className="space-y-8 text-sm leading-7 text-muted-foreground sm:text-base"><p>The work is attentive, practical and shaped around the realities of your life. There is room for complexity without judgement, and direction without rigid formulas.</p><p>Support may focus on personal wellbeing, relationships, transition, leadership, family dynamics or the quieter pressures that are difficult to discuss elsewhere.</p><Link to="/about" className="inline-flex items-center gap-2 border-b border-foreground pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-foreground">Discover the Approach <ArrowUpRight className="size-4"/></Link></div></div></section>
+    <FinalCta title="A confidential setting for what matters most." />
+  </div>;
 }

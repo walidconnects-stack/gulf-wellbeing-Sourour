@@ -1,0 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { EditorialSections, PageHero, imagery } from "@/components/editorial";
+import { wellbeingSections } from "@/lib/page-content";
+const description = "Private wellbeing advisory for stress, emotional balance, life transitions, relationships and restoration across the Gulf.";
+export const Route = createFileRoute("/wellbeing")({ head: () => ({ meta: [{ title: "Private Wellbeing Advisory — GULFWELLBEING" }, { name: "description", content: description }, { property: "og:title", content: "Private Wellbeing Advisory — GULFWELLBEING" }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { property: "og:url", content: "/wellbeing/" }], links: [{ rel: "canonical", href: "/wellbeing/" }] }), component: () => <><PageHero eyebrow="Personal wellbeing" title="Space to return to yourself." intro="Considered support for the pressures, relationships and transitions that shape your inner life." image={imagery.interiorImage}/><EditorialSections sections={wellbeingSections}/></> });

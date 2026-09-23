@@ -1,0 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { EditorialSections, PageHero, imagery } from "@/components/editorial";
+import { womenSections } from "@/lib/page-content";
+const description = "Discreet, sophisticated private wellbeing advisory for women navigating family, motherhood, relationships and life transitions.";
+export const Route = createFileRoute("/women")({ head: () => ({ meta: [{ title: "Women's Wellbeing Gulf — GULFWELLBEING" }, { name: "description", content: description }, { property: "og:title", content: "Women's Wellbeing Gulf — GULFWELLBEING" }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { property: "og:url", content: "/women/" }], links: [{ rel: "canonical", href: "/women/" }] }), component: () => <><PageHero eyebrow="Private advisory for women" title="Your life, in its full complexity." intro="A composed, discreet setting for identity, family, relationships, expectations and meaningful change." image={imagery.womenImage}/><EditorialSections sections={womenSections} image={imagery.womenImage}/></> });
